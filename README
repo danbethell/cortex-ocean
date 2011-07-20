@@ -1,0 +1,8 @@
+_Cortex Ocean_
+A port of the Houdini Ocean Toolkit to Cortex.
+
+Build requirements:
+* Cortex
+* FFTW3
+* Loki
+* Blitz

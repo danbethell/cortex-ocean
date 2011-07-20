@@ -1,7 +1,6 @@
 cmake_minimum_required( VERSION 2.8 )
 project( cortex-ocean )
-
-set( CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/config/cmake )
+set( CORTEX_OCEAN_VERSION "1" )
 
 find_package( PkgConfig REQUIRED )
 pkg_check_modules( Cortex REQUIRED cortex )
@@ -14,25 +13,27 @@ link_directories(
   ${Cortex_LIBRARY_DIRS}
   )
 
-add_library( OceanOp
-  SHARED
-  ${CMAKE_SOURCE_DIR}/src/OceanOp.cpp
-  )
-
 add_library( CortexOceanBinding
   SHARED
+  ${CMAKE_SOURCE_DIR}/src/OceanOp.cpp
   ${CMAKE_SOURCE_DIR}/src/CortexOceanBinding.cpp
   )
 
 set_target_properties( CortexOceanBinding
   PROPERTIES
-  OUTPUT_NAME "_CortexOcean"
+  OUTPUT_NAME "CortexOcean"
   PREFIX ""
   SUFFIX ".so"
-  
   )
 
 target_link_libraries( CortexOceanBinding
   ${Cortex_LIBRARIES}
-  OceanOp
+  fftw3f
   )
+    
+set( INSTALL_PATH ${Cortex_PREFIX}/ops/cortexOcean/ocean )
+install( TARGETS CortexOceanBinding
+    DESTINATION ${INSTALL_PATH}
+    )
+set( OP_STUB_FILE "${INSTALL_PATH}/ocean-${CORTEX_OCEAN_VERSION}.py" )
+install( CODE "file( WRITE ${OP_STUB_FILE} \"from CortexOcean import OceanOp as ocean\n\")" )ls
