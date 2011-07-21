@@ -36,4 +36,4 @@ install( TARGETS CortexOceanBinding
     DESTINATION ${INSTALL_PATH}
     )
 set( OP_STUB_FILE "${INSTALL_PATH}/ocean-${CORTEX_OCEAN_VERSION}.py" )
-install( CODE "file( WRITE ${OP_STUB_FILE} \"from CortexOcean import OceanOp as ocean\n\")" )ls
+install( CODE "file( WRITE ${OP_STUB_FILE} \"from CortexOcean import OceanOp as ocean\n\")" )
