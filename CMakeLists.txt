@@ -35,5 +35,12 @@ set( INSTALL_PATH ${Cortex_PREFIX}/ops/cortexOcean/ocean )
 install( TARGETS CortexOceanBinding
     DESTINATION ${INSTALL_PATH}
     )
-set( OP_STUB_FILE "${INSTALL_PATH}/ocean-${CORTEX_OCEAN_VERSION}.py" )
-install( CODE "file( WRITE ${OP_STUB_FILE} \"from CortexOcean import OceanOp as ocean\n\")" )ls
+    
+function(CORTEX_OP_STUB stub_path stub_cmd)    
+    install( CODE "file( WRITE ${stub_path} \"import os, sys\nsys.path.append( os.path.dirname( __file__ ) )\n\n${stub_cmd}\n\")" )
+endfunction(CORTEX_OP_STUB)
+    
+cortex_op_stub( 
+    "${INSTALL_PATH}/ocean-${CORTEX_OCEAN_VERSION}.py"
+    "from CortexOcean import OceanOp as ocean"
+    )
